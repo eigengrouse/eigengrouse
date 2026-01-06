@@ -1,0 +1,174 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = 'My retro computing blog.', image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href={`${base}eigengrouse50.png`} />
+    <link rel="alternate icon" type="image/x-icon" href={`${base}favicon.ico`} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={new URL(image, Astro.url)} />}
+    
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href={`${base}rss.xml`} />
+  </head>
+  <body>
+    <div class="container center">
+      <header class="header">
+        <div class="header__inner">
+          <div class="header__logo">
+            <a href={base}>
+              <div class="logo">
+                eigengrouse
+              </div>
+            </a>
+          </div>
+          <ul class="menu menu--mobile">
+            <li class="menu__trigger">Menu ▾</li>
+            <li>
+              <ul class="menu__dropdown">
+                <li><a href={`${base}posts/`}>Blog</a></li>
+                <li><a href={`${base}tags/games/`}>Games</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        
+        <nav class="navigation-menu">
+          <ul class="navigation-menu__inner menu--desktop">
+            <li><a href={`${base}posts/`}>Blog</a></li>
+            <li><a href={`${base}tags/games/`}>Games</a></li>
+          </ul>
+        </nav>
+      </header>
+      
+      <main class="content">
+        <slot />
+      </main>
+      
+      <footer class="footer">
+        <div class="footer__inner">
+          <div class="copyright">
+            <span>© 2026 eigengrouse</span>
+            <span class="separator">::</span>
+            <a href="https://bsky.app/profile/eigengrouse.com" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bluesky" viewBox="0 0 16 16">
+                <path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948"/>
+              </svg>
+            </a>
+            <span class="separator">::</span>
+            <a href="https://github.com/eigengrouse" target="_blank">
+              <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
+                ><path
+                  fill="currentColor"
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                ></path></svg
+              >
+            </a>
+            <span class="separator">::</span>
+            <a href="/rss.xml" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-rss" viewBox="0 0 16 16">
+                  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script>
+      // Menu functionality
+      (() => {
+        const container = document.querySelector(".container");
+        const menus = document.querySelectorAll(".menu");
+        
+        // Close menus when clicking outside
+        document.body.addEventListener("click", () => {
+          menus.forEach(menu => {
+            if (menu.classList.contains("open")) {
+              menu.classList.remove("open");
+            }
+          });
+        });
+        
+        // Close menus on window resize
+        window.addEventListener("resize", () => {
+          menus.forEach(menu => {
+            menu.classList.remove("open");
+          });
+        });
+        
+        // Menu trigger functionality
+        menus.forEach(menu => {
+          const trigger = menu.querySelector(".menu__trigger");
+          const dropdown = menu.querySelector<HTMLElement>(".menu__dropdown");
+          
+          if (trigger && dropdown) {
+            trigger.addEventListener("click", event => {
+              event.stopPropagation();
+              
+              if (menu.classList.contains("open")) {
+                menu.classList.remove("open");
+              } else {
+                // Close other menus
+                menus.forEach(m => m.classList.remove("open"));
+                menu.classList.add("open");
+              }
+              
+              // Adjust dropdown position if it goes outside container
+              if (container && dropdown.getBoundingClientRect().right > container.getBoundingClientRect().right) {
+                dropdown.style.left = "auto";
+                dropdown.style.right = "0";
+              }
+            });
+            
+            dropdown.addEventListener("click", e => e.stopPropagation());
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Import all CSS files in the correct order */
+  @import "../styles/terminal.css";
+  @import "../styles/fonts.css";
+  @import "../styles/main.css";
+  @import "../styles/header.css";
+  @import "../styles/menu.css";
+  @import "../styles/footer.css";
+  @import "../styles/buttons.css";
+  @import "../styles/post.css";
+  @import "../styles/pagination.css";
+  @import "../styles/code.css";
+  @import "../styles/syntax.css";
+  @import "../styles/gist.css";
+  @import "../styles/terms.css";
+</style>
