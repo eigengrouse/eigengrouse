@@ -1,0 +1,88 @@
+---
+export interface Props {
+  tapFile: string;
+  machine?: number;
+  zoom?: number;
+  uiEnabled?: boolean;
+  tapeAutoLoadMode?: 'default' | 'usr0';
+  autoStart?: boolean;
+}
+
+const {
+  tapFile,
+  machine = 48,
+  zoom = 2,
+  uiEnabled = false,
+  tapeAutoLoadMode = 'default',
+  autoStart = false,
+} = Astro.props;
+const playerId = `jsspeccy-${tapFile.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+---
+
+<div class="jsspeccy-player" id={playerId}></div>
+
+<script define:vars={{ tapFile, machine, zoom, uiEnabled, tapeAutoLoadMode, autoStart, playerId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mount = document.getElementById(playerId);
+
+    if (!mount || typeof JSSpeccy !== 'function') {
+      return;
+    }
+
+    const player = JSSpeccy(mount, {
+      machine,
+      zoom,
+      uiEnabled,
+      openUrl: tapFile,
+      autoLoadTapes: true,
+      tapeAutoLoadMode,
+      autoStart,
+    });
+
+    if (!autoStart || !player || typeof player.resumeAudio !== 'function') {
+      return;
+    }
+
+    let listenersAttached = true;
+
+    const removeListeners = () => {
+      if (!listenersAttached) {
+        return;
+      }
+
+      listenersAttached = false;
+      window.removeEventListener('pointerdown', tryResumeAudio);
+      window.removeEventListener('keydown', tryResumeAudio);
+      window.removeEventListener('touchstart', tryResumeAudio);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+
+    const tryResumeAudio = async () => {
+      const resumed = await player.resumeAudio();
+
+      if (resumed) {
+        removeListeners();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void tryResumeAudio();
+      }
+    };
+
+    window.addEventListener('pointerdown', tryResumeAudio, { passive: true });
+    window.addEventListener('keydown', tryResumeAudio);
+    window.addEventListener('touchstart', tryResumeAudio, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    void tryResumeAudio();
+  });
+</script>
+
+<style>
+  .jsspeccy-player {
+    margin: 1.5rem 0;
+  }
+</style>
+

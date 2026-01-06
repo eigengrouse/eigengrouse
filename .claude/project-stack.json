@@ -1,0 +1,11 @@
+{
+  "detected": "2026-03-29",
+  "stacks": ["typescript", "node"],
+  "frameworks": ["astro"],
+  "packageManager": "npm",
+  "hasDocker": false,
+  "indicators": {
+    "package.json": true,
+    "tsconfig.json": true
+  }
+}

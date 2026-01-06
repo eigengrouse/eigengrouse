@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx prettier:*)",
+      "Bash(npx eslint:*)",
+      "Bash(xargs grep:*)",
+      "Bash(env)",
+      "Bash(ls -la ~/.claude/plugins/agentic-dev-team*)",
+      "Bash(unzip -l src/content/posts/hashnode-main.zip)",
+      "Bash(unzip -p src/content/posts/hashnode-main.zip hashnode-main/cm3bnqn31000109l2eez36gvk.md)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Bash(unzip -p src/content/posts/hashnode-main.zip \"$f\")",
+      "Bash(done)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
