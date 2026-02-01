@@ -48,3 +48,9 @@ del code.tap
 ```
 
 This build pipeline could also be used to include machine code routines if we know the `org` location. Or even a game fully implemented in Z80 with the BASIC loader loading the code then kicking it off. The BASIC loader is also where you could add a loading screen, which I didn't do this time but might come back to. The rest of the BASIC file is the game implementation.
+
+```mermaid
+graph TD
+    A[Start] --> B[Process]
+    B --> C[End]
+```
