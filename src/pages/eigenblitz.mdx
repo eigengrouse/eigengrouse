@@ -60,7 +60,15 @@ flowchart TD
     print_city("PRINT each building adding game*2 height")
     for_x_coordinates("FOR x coordinates")
     for_y_coordinates("FOR y coordinates")
-
+    print_plane("PRINT plane")
+    q_bomb_power{{"IF bomb power > 0"}}
+    print_bomb("PRINT bomb")
+    q_plane_collision{{"IF plane collision"}}
+    print_explosion("PRINT explosion")
+    q_bomb_collision{{"IF bomb collision"}}
+    update_bomb("LET bomb power = bomb power - 1 : LET bomb row = bomb row + 1")
+    q_bomb_ground{{IF bomb row = max OR bomb power = 1}}
+    remove_bomb("LET bomb power = 0")
     next_y_coordinates("NEXT y coordinates")
     next_x_coordinates("NEXT x coordinates")
     gosub_manwaving("GO SUB @manwaving")
@@ -76,7 +84,16 @@ flowchart TD
     load_citydata --> print_city
     print_city --> for_x_coordinates
     for_x_coordinates --> for_y_coordinates
-    for_y_coordinates --> next_y_coordinates
+    for_y_coordinates --> print_plane
+    print_plane --> print_bomb
+    print_bomb --> q_plane_collision
+    q_plane_collision -- no --> q_bomb_collision
+    q_bomb_collision -- yes --> update_bomb
+    update_bomb --> q_bomb_ground
+    q_bomb_collision -- no --> q_bomb_ground 
+    q_bomb_ground -- yes --> remove_bomb
+    q_bomb_ground -- no --> next_y_coordinates
+    remove_bomb --> next_y_coordinates
     next_y_coordinates --> next_x_coordinates
     next_y_coordinates --> for_y_coordinates
     next_x_coordinates --> for_x_coordinates
