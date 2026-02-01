@@ -52,7 +52,6 @@ This build pipeline could also be used to include machine code routines if we kn
 ```mermaid
 flowchart TD
     load_font("Load Font")
-    init_vars("Initialise Vars")
     mainloop("@mainloop:")
     gosub_startscreen("GO SUB @startscreen")
     gameloop("@gameloop:")
@@ -66,10 +65,10 @@ flowchart TD
     next_x_coordinates("NEXT x coordinates")
     gosub_manwaving("GO SUB @manwaving")
     level_up("LET level = level + 1")
-    game_up("IF level = max LET level = 1 LET game = game + 1")
+    q_max_level{{"IF level = max"}}
+    game_up("LET level = 1 LET game = game + 1")
 
-    load_font --> init_vars
-    init_vars --> mainloop
+    load_font --> mainloop
     mainloop --> gosub_startscreen
     gosub_startscreen --> gameloop
     gameloop --> gosub_flyoff
@@ -83,6 +82,9 @@ flowchart TD
     next_x_coordinates --> for_x_coordinates
     next_x_coordinates --> gosub_manwaving
     gosub_manwaving --> level_up
-    level_up --> game_up
+    level_up --> q_max_level
+    q_max_level -- yes --> game_up
+    q_max_level -- no --> gameloop
+    game_up --> gameloop
 
 ```
