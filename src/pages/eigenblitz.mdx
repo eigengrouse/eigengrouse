@@ -48,3 +48,76 @@ del code.tap
 ```
 
 This build pipeline could also be used to include machine code routines if we know the `org` location. Or even a game fully implemented in Z80 with the BASIC loader loading the code then kicking it off. The BASIC loader is also where you could add a loading screen, which I didn't do this time but might come back to. The rest of the BASIC file is the game implementation.
+
+### The game loop
+
+This is what was implemented in Sinclair BASIC
+
+```mermaid
+flowchart TD
+    load_font("Load CODE")
+    mainloop("@mainloop:")
+    gosub_startscreen("GO SUB @startscreen")
+    gameloop("@gameloop:")
+    gosub_flyoff("GO SUB @flyoff")
+    load_citydata("READ @citydata + level")
+    print_city("PRINT each building adding game*2 height")
+    for_x_coordinates("FOR each row")
+    for_y_coordinates("FOR each column")
+    print_plane("PRINT plane at row, column")
+    q_bomb_power{{"IF bomb power > 0"}}
+    print_bomb("PRINT bomb at bomb row, bomb column")
+    q_plane_collision{{"IF plane collision"}}
+    gosub_planecrash("GO SUB @planecrash")
+    q_bomb_collision{{"IF bomb collision"}}
+    update_bomb_power("LET bomb power = bomb power - 1 : LET score = score + 1")
+    update_bomb_row("LET bomb row = bomb row + 1")
+    q_bomb_ground{{IF bomb row = max OR bomb power = 1}}
+    remove_bomb("LET bomb power = 0")
+    q_player_fire{{"IF bomb power = 0 AND player fire"}}
+    player_fire("LET bomb row = row + 1, bomb column = column, bomb power = 5")
+    next_y_coordinates("NEXT column")
+    next_x_coordinates("NEXT row")
+    gosub_manwaving("GO SUB @manwaving")
+    level_up("LET level = level + 1")
+    q_max_level{{"IF level = max"}}
+    game_up("LET level = 1 LET game = game + 1")
+
+    load_font --> mainloop
+    mainloop --> gosub_startscreen
+    gosub_startscreen --> gameloop
+    gameloop --> gosub_flyoff
+    gosub_flyoff --> load_citydata
+    load_citydata --> print_city
+    print_city --> for_x_coordinates
+    for_x_coordinates --> for_y_coordinates
+    for_y_coordinates --> print_plane
+    print_plane --> q_plane_collision
+    q_bomb_power -- yes --> print_bomb
+    print_bomb --> q_bomb_collision
+    q_bomb_power -- no --> q_player_fire
+    q_plane_collision -- yes --> gosub_planecrash
+    gosub_planecrash --> mainloop
+    q_plane_collision -- no --> 
+    q_bomb_power
+    q_bomb_collision -- yes --> update_bomb_power
+    update_bomb_power --> update_bomb_row
+    update_bomb_row --> q_bomb_ground
+    q_bomb_collision -- no --> update_bomb_row 
+    q_bomb_ground -- yes --> remove_bomb
+    q_bomb_ground -- no --> next_y_coordinates
+    q_player_fire -- yes --> player_fire
+    q_player_fire -- no --> next_y_coordinates
+    player_fire --> next_y_coordinates
+    remove_bomb --> q_player_fire
+    next_y_coordinates --> next_x_coordinates
+    next_y_coordinates --> for_y_coordinates
+    next_x_coordinates --> for_x_coordinates
+    next_x_coordinates --> gosub_manwaving
+    gosub_manwaving --> level_up
+    level_up --> q_max_level
+    q_max_level -- yes --> game_up
+    q_max_level -- no --> gameloop
+    game_up --> gameloop
+
+```
