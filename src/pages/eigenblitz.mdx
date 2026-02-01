@@ -49,9 +49,11 @@ del code.tap
 
 This build pipeline could also be used to include machine code routines if we know the `org` location. Or even a game fully implemented in Z80 with the BASIC loader loading the code then kicking it off. The BASIC loader is also where you could add a loading screen, which I didn't do this time but might come back to. The rest of the BASIC file is the game implementation.
 
-### The game loop
+### Sinclair BASIC implementation
 
-This is what was implemented in Sinclair BASIC
+Blitz is a simple game. The player's plane moves from left to right on a screen filled with buildings, moving a row down each time it reaches the far side. Bombs can be dropped that fall at the same speed the plane flies, that destroy up to 5 storeys, and only 1 bomb can be dropped at a time. If the player collides with a building they crash and the game restarts. If the player destroys all buildings then they can land and the next level is loaded.
+
+The following flowchart shows the control flow and this is what was implemented in Sinclair BASIC ([code](https://github.com/eigengrouse/eigenblitz/blob/main/main.zxb)).
 
 ```mermaid
 flowchart TD
@@ -74,7 +76,7 @@ flowchart TD
     update_bomb_row("LET bomb row = bomb row + 1")
     q_bomb_ground{{IF bomb row = max OR bomb power = 1}}
     remove_bomb("LET bomb power = 0")
-    q_player_fire{{"IF bomb power = 0 AND player fire"}}
+    q_player_fire{{"IF player fire"}}
     player_fire("LET bomb row = row + 1, bomb column = column, bomb power = 5")
     next_y_coordinates("NEXT column")
     next_x_coordinates("NEXT row")
