@@ -50,7 +50,39 @@ del code.tap
 This build pipeline could also be used to include machine code routines if we know the `org` location. Or even a game fully implemented in Z80 with the BASIC loader loading the code then kicking it off. The BASIC loader is also where you could add a loading screen, which I didn't do this time but might come back to. The rest of the BASIC file is the game implementation.
 
 ```mermaid
-graph TD
-    A[Start] --> B[Process]
-    B --> C[End]
+flowchart TD
+    load_font("Load Font")
+    init_vars("Initialise Vars")
+    mainloop("@mainloop:")
+    gosub_startscreen("GO SUB @startscreen")
+    gameloop("@gameloop:")
+    gosub_flyoff("GO SUB @flyoff")
+    load_citydata("READ @citydata + level")
+    print_city("PRINT each building adding game*2 height")
+    for_x_coordinates("FOR x coordinates")
+    for_y_coordinates("FOR y coordinates")
+
+    next_y_coordinates("NEXT y coordinates")
+    next_x_coordinates("NEXT x coordinates")
+    gosub_manwaving("GO SUB @manwaving")
+    level_up("LET level = level + 1")
+    game_up("IF level = max LET level = 1 LET game = game + 1")
+
+    load_font --> init_vars
+    init_vars --> mainloop
+    mainloop --> gosub_startscreen
+    gosub_startscreen --> gameloop
+    gameloop --> gosub_flyoff
+    gosub_flyoff --> load_citydata
+    load_citydata --> print_city
+    print_city --> for_x_coordinates
+    for_x_coordinates --> for_y_coordinates
+    for_y_coordinates --> next_y_coordinates
+    next_y_coordinates --> next_x_coordinates
+    next_y_coordinates --> for_y_coordinates
+    next_x_coordinates --> for_x_coordinates
+    next_x_coordinates --> gosub_manwaving
+    gosub_manwaving --> level_up
+    level_up --> game_up
+
 ```
