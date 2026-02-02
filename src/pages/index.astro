@@ -1,14 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allPosts = Object.values(import.meta.glob('./posts/*.mdx', { eager: true }))
+	.sort((a, b) =>
+    	new Date(b.frontmatter.pubDate).getTime() -
+    	new Date(a.frontmatter.pubDate).getTime()
+	);
 ---
 
 <Layout>
-	<h4>My ZX Spectrum Games</h4>
+	<h4>My Retro Computing Blog</h4>
 	<ul>
-	<li><a href="/eigenblitz/">Eigenblitz</a></li>
+		{allPosts.map((post: any) => <li><a href={post.url}>{new Date(post.frontmatter.pubDate).toLocaleDateString()} - {post.frontmatter.title} - {post.frontmatter.description}</a></li>)}
 	</ul>
 	<h4>My Links</h4>
 	<ul>

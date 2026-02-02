@@ -7,12 +7,13 @@ image:
     url: '/eigenblitz.png'
     alt: 'A screenshot from Eigenblitz showing a plane flying above London in 1940.'
 tags: ["zx-spectrum"]
-layout: ../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 ---
 
 import { YouTube } from '@astro-community/astro-embed-youtube';
 
-# Eigenblitz
+# {frontmatter.title}
+<sub>{new Date(frontmatter.pubDate).toLocaleDateString()}</sub>
 
 This is an implementation of the VIC-20 game Blitz in Sinclair BASIC using a modern toolchain. Some bits are faithful and some bits are different depending on what I could use or figure out, or wanted to try in the time.
 .tap file for use with a ZX Spectrum emulator (tested with Fuse).
