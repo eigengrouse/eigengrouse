@@ -78,8 +78,8 @@ flowchart TD
     gosub_flyoff("GO SUB @flyoff")
     load_citydata("READ @citydata + level")
     print_city("PRINT each building adding game*2 height")
-    for_x_coordinates("FOR each row")
-    for_y_coordinates("FOR each column")
+    for_row("FOR each row")
+    for_column("FOR each column")
     print_plane("PRINT plane at row, column")
     q_bomb_power{{"IF bomb power > 0"}}
     print_bomb("PRINT bomb at bomb row, bomb column")
@@ -92,8 +92,8 @@ flowchart TD
     remove_bomb("LET bomb power = 0")
     q_player_fire{{"IF player fire"}}
     player_fire("LET bomb row = row + 1, bomb column = column, bomb power = 5")
-    next_y_coordinates("NEXT column")
-    next_x_coordinates("NEXT row")
+    next_column("NEXT column")
+    next_row("NEXT row")
     gosub_manwaving("GO SUB @manwaving")
     level_up("LET level = level + 1")
     q_max_level{{"IF level = max"}}
@@ -105,9 +105,9 @@ flowchart TD
     gameloop --> gosub_flyoff
     gosub_flyoff --> load_citydata
     load_citydata --> print_city
-    print_city --> for_x_coordinates
-    for_x_coordinates --> for_y_coordinates
-    for_y_coordinates --> print_plane
+    print_city --> for_row
+    for_row --> for_column
+    for_column --> print_plane
     print_plane --> q_plane_collision
     q_bomb_power -- yes --> print_bomb
     print_bomb --> q_bomb_collision
@@ -121,15 +121,15 @@ flowchart TD
     update_bomb_row --> q_bomb_ground
     q_bomb_collision -- no --> update_bomb_row 
     q_bomb_ground -- yes --> remove_bomb
-    q_bomb_ground -- no --> next_y_coordinates
+    q_bomb_ground -- no --> next_column
     q_player_fire -- yes --> player_fire
-    q_player_fire -- no --> next_y_coordinates
-    player_fire --> next_y_coordinates
+    q_player_fire -- no --> next_column
+    player_fire --> next_column
     remove_bomb --> q_player_fire
-    next_y_coordinates --> next_x_coordinates
-    next_y_coordinates --> for_y_coordinates
-    next_x_coordinates --> for_x_coordinates
-    next_x_coordinates --> gosub_manwaving
+    next_column --> next_row
+    next_column --> for_column
+    next_row --> for_row
+    next_row --> gosub_manwaving
     gosub_manwaving --> level_up
     level_up --> q_max_level
     q_max_level -- yes --> game_up
