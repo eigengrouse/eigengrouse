@@ -49,13 +49,20 @@ del code.tap
 
 This build pipeline could also be used to include machine code routines if we know the `org` location. Or even a game fully implemented in Z80 with the BASIC loader loading the code then kicking it off. The BASIC loader is also where you could add a loading screen, which I didn't do this time but might come back to. The rest of the BASIC file is the game implementation.
 
-### Sinclair BASIC implementation
+#### Sinclair BASIC Implementation
 
 Blitz is a simple game. The player's plane moves from left to right on a screen filled with buildings, moving a row down each time it reaches the far side. Bombs can be dropped that fall at the same speed the plane flies, that destroy up to 5 storeys, and only 1 bomb can be dropped at a time. If the player collides with a building they crash and the game restarts. If the player destroys all buildings then they can land and the next level is loaded.
 
-The following flowchart shows the control flow and this is what was implemented in Sinclair BASIC ([code](https://github.com/eigengrouse/eigenblitz/blob/main/main.zxb)).
+The flowchart below shows the control flow and this is what was implemented in Sinclair BASIC ([code](https://github.com/eigengrouse/eigenblitz/blob/main/main.zxb)).
+
+#### Game Loop Logic
 
 ```mermaid
+%%{init: {
+  "themeVariables": {
+    "fontSize": "11px"
+  }
+}}%%
 flowchart TD
     load_font("Load CODE")
     mainloop("@mainloop:")
@@ -123,3 +130,7 @@ flowchart TD
     game_up --> gameloop
 
 ```
+
+#### Final thoughts...
+
+It probably took as long to create a flowchart and mess around with it as it did to write the Sinclair BASIC and this was just a bit of an exercise in learning how to do this with [mermaidjs](https://mermaid.js.org/). This whole game was a bit of a learning exercise in fact but having an end product i.e the VIC-20 game gave me something to work towards and I was able to figure things out until they were good enough to fit the specification. It also meant I ended up with a game that was quite playable as this concept had been proven, where in the past I have just made things up as I've gone along and the end product was a bit all over the place. There's still plenty of room for creativity and even creating the build pipeline was really satisfying and fun even.
