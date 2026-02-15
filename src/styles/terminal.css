@@ -16,7 +16,8 @@
   --background: var(--white);
   --foreground: var(--black);
   --accent: var(--blue);
-  --hyperlink: var(--magenta);
+  --hyperlink: var(--red);
+  --taglink: var(--magenta);
 }
 
 html {
