@@ -16,6 +16,7 @@
   --background: var(--white);
   --foreground: var(--black);
   --accent: var(--blue);
+  --hyperlink: var(--magenta);
 }
 
 html {
@@ -81,7 +82,7 @@ table {
 }
 
 a {
-  color: var(--magenta);
+  color: var(--hyperlink);
 }
 
 button {

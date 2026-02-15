@@ -51,11 +51,11 @@
   display: block;
   margin-bottom: 20px;
   font-size: inherit;
-  color: var(--magenta);
+  color: var(--hyperlink);
 }
 
 .post-tags a {
-  color: var(--magenta);
+  color: var(--hyperlink);
   text-decoration: none;
 }
 

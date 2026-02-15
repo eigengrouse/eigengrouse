@@ -88,7 +88,7 @@
 .menu__dropdown > li > a {
   display: flex;
   padding: 5px;
-  color: var(--magenta)
+  color: var(--hyperlink)
 }
 
 /* Mobile menu */
