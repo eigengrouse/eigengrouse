@@ -19,23 +19,18 @@
 
 .header__logo::after {
   content: "";
-  /*background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 2px, transparent 0, transparent 10px);*/
-  background: repeating-linear-gradient(
+  background: linear-gradient(
     135deg,
-    rgb(192,0,0) 0px,
-    rgb(192,0,0) 10px,
-
-    rgb(192,192,0) 10px,
-    rgb(192,192,0) 20px,
-
-    rgb(0,192,0) 20px,
-    rgb(0,192,0) 30px,
-
-    rgb(0,192,192) 30px,
-    rgb(0,192,192) 40px,
-
-    rgb(192,192,192) 40px,
-    rgb(192,192,192) 50px
+    rgb(0,0,0) 0%,
+    rgb(0,0,0) calc(100% - 40px),
+    rgb(192,0,0) calc(100% - 40px),
+    rgb(192,0,0) calc(100% - 30px),
+    rgb(192,192,0) calc(100% - 30px),
+    rgb(192,192,0) calc(100% - 20px),
+    rgb(0,192,0) calc(100% - 20px),
+    rgb(0,192,0) calc(100% - 10px),
+    rgb(0,192,192) calc(100% - 10px),
+    rgb(0,192,192) 100%
   );
   display: block;
   width: 100%;
