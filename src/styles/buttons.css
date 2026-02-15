@@ -75,6 +75,7 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   font-weight: 400;
+  color: var(--magenta)
 }
 
 .button.inline:hover {
