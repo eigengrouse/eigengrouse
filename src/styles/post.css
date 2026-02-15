@@ -51,11 +51,11 @@
   display: block;
   margin-bottom: 20px;
   font-size: inherit;
-  color: var(--accent);
+  color: var(--magenta);
 }
 
 .post-tags a {
-  color: var(--accent);
+  color: var(--magenta);
   text-decoration: none;
 }
 
