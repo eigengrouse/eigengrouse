@@ -21,8 +21,8 @@
   content: "";
   background: linear-gradient(
     135deg,
-    var(--black) 0%,
-    var(--black) calc(100% - 40px),
+    var(--foreground) 0%,
+    var(--foreground) calc(100% - 40px),
     var(--red) calc(100% - 40px),
     var(--red) calc(100% - 30px),
     var(--yellow) calc(100% - 30px),
