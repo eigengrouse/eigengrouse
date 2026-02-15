@@ -2,12 +2,20 @@
 @import url('https://cdn.staticdelivr.com/gfonts/css2?family=Fira+Code:wght@300..700&display=swap');
 
 :root {
-  --background: rgb(192,192,192);
-  --foreground: rgb(0,0,0);
-  --accent: rgb(2,0,192);
   --radius: 0;
   --font-size: 1rem;
   --line-height: 1.54em;
+  --blue: rgb(2,0,192);
+  --red: rgb(192,0,0);
+  --magenta: rgb(0,192,192);
+  --green: rgb(1,192,0);
+  --cyan: rgb(0,192,192);
+  --yellow: rgb(192,192,0);
+  --white: rgb(192,192,192);
+  --black: rgb(0,0,0);
+  --background: var(--white);
+  --foreground: var(--black);
+  --accent: var(--blue);
 }
 
 html {
