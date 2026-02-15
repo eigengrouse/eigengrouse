@@ -35,7 +35,6 @@
   display: block;
   width: 100%;
   height: 35px;
-  margin-left: 10px;
 }
 
 .header__logo a {
@@ -48,7 +47,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  background: var(--accent);
+  background: rgb(0,0,0);
   color: var(--background);
   font-weight: 700;
   padding: 5px 10px;
@@ -72,7 +71,6 @@
     display: block;
     width: auto;
     flex: 1;
-    margin-left: 10px;
     margin-right: 10px;
   }
 }
