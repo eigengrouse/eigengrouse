@@ -18,23 +18,3 @@ const posts = (await getCollection('posts'))
     )}
   </div>
 </BaseLayout>
-
-<style>
-  .posts-title {
-    position: relative;
-    color: var(--foreground);
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 15px;
-    border-bottom: 3px dotted var(--foreground);
-  }
-  
-  .posts-title::after {
-    content: "";
-    position: absolute;
-    bottom: 2px;
-    display: block;
-    width: 100%;
-    border-bottom: 3px dotted var(--foreground);
-  }
-</style>
