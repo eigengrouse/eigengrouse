@@ -22,13 +22,13 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<BaseLayout title={`Tag: ${tag}`} description={`All posts tagged with "${tag}"`}>
+<BaseLayout title={tag}>
   <div class="posts">
-    <h1 class="posts-title">
-      <span style="color: var(--foreground)">Posts for: <span style="color: var(--accent)">#{tag}</span></span>
-    </h1>
+    <h1 class="posts-title">{tag.split('-').map(function (word) {
+        return (word.charAt(0).toUpperCase() + word.slice(1));
+    }).join(' ')}</h1>
     {posts.length === 0 ? (
-      <p>No posts found with this tag.</p>
+      <p>No posts yet. Check back soon!</p>
     ) : (
       posts.map((post) => <PostCard post={post} />)
     )}
@@ -37,14 +37,20 @@ const { posts } = Astro.props;
 
 <style>
   .posts-title {
+    position: relative;
     color: var(--foreground);
     margin-top: 0 !important;
-    margin-bottom: 30px !important;
-    padding-bottom: 0 !important;
-    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 15px;
+    border-bottom: 3px dotted var(--foreground);
   }
   
   .posts-title::after {
-    display: none !important;
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    display: block;
+    width: 100%;
+    border-bottom: 3px dotted var(--foreground);
   }
 </style>
