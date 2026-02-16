@@ -3,7 +3,7 @@ title: 'CaliRun ZX-Basicus Version'
 pubDate: 2026-02-16
 description: 'Applying Sinclair BASIC optimisations to our racing game using ZX-Basicus'
 author: 'eigengrouse'
-image: '/calirun-zx-basicus-version.jpg'
+image: '/calirun-zx-basicus-version.png'
 tags: ["zx-spectrum", "sinclair-basic", "zx-basicus"]
 ---
 
