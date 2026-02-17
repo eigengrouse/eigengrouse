@@ -47,7 +47,9 @@ const isExternal = !!post.data.externalLink;
   )}
   {post.data.image && (
     <figure class="post-cover">
+      <a href={postUrl} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener" : undefined}>
       <img src={post.data.image} alt={post.data.title} />
+      <a href={postUrl} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener" : undefined}></a>
     </figure>
   )}
   {post.data.description && (
