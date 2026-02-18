@@ -87,16 +87,16 @@ const title = tag
       // Keep filter state in URL (?tags=a,b&mode=all)
       const url = new URL(window.location.href);
       if (selected.length)
-        url.searchParams.set("filter", selected.join(","));
+        url.searchParams.set("and", selected.join(","));
       else
-        url.searchParams.delete("filter");
+        url.searchParams.delete("and");
 
       history.replaceState(null, "", url);
     }
 
     // Restore state from URL on load
     const url = new URL(window.location.href);
-    const tags = (url.searchParams.get("filter") || "").split(",").filter(Boolean);
+    const tags = (url.searchParams.get("and") || "").split(",").filter(Boolean);
     tagEls.forEach((cb) => (cb.checked = tags.includes(cb.value)));
     tagEls.forEach((cb) => cb.addEventListener("change", apply));
     apply();
