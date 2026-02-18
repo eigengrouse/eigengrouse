@@ -4,36 +4,104 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 
 export async function getStaticPaths() {
+
   const allPosts = await getCollection('posts');
-  const uniqueTags = [...new Set(allPosts.map(post => post.data.tags).flat())];
-  
-  return uniqueTags.map(tag => {
-    const filteredPosts = allPosts
-      .filter(post => post.data.tags?.includes(tag) && !post.data.draft)
+  const publishedPosts = allPosts.filter((post) => !post.data.draft);
+  const allTags = Array.from(
+    new Set(publishedPosts.flatMap((post) => post.data.tags ?? []))
+  ).sort();
+
+  return allTags.map((tag) => {
+    const filteredPosts = publishedPosts
+      .filter((post) => post.data.tags?.includes(tag))
       .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    // ONLY tags that exist in the filtered posts for this page
+    const pageTags = Array.from(
+      new Set(filteredPosts.flatMap((post) => post.data.tags ?? []))
+    )
+    .filter((t) => t !== tag) // exclude current tag
+    .sort();
+
     return {
       params: { tag },
-      props: { posts: filteredPosts }
+      props: { posts: filteredPosts, allTags: pageTags },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
-const title = tag.split('-').map(function (word) {
-        return (word.charAt(0).toUpperCase() + word.slice(1));
-    }).join(' ');
+const { posts, allTags } = Astro.props;
+
+const title = tag
+  .split('-')
+  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(' ');
 ---
 
 <BaseLayout title={title}>
   <div class="posts">
     <h1 class="posts-title">{title}</h1>
+
+    <!-- Filter UI -->
+    <div class="posts-filters">
+      <div class="tags">
+        {allTags.map((t) => (
+          <label class="tag-option">
+            <input type="checkbox" value={t} class="tag" />
+            <span>{t}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+
     {posts.length === 0 ? (
       <p>No posts yet. Check back soon!</p>
     ) : (
-      <div class="posts-grid">
-        {posts.map((post) => <PostCard post={post} />)}
+      <div class="posts-grid" id="results">
+        {posts.map((post) => (
+          <div class="post-item" data-tags={(post.data.tags ?? []).join(',')}>
+            <PostCard post={post} />
+          </div>
+        ))}
       </div>
     )}
   </div>
+
+  <script>
+    const tagEls = [...document.querySelectorAll("input.tag")];
+    const items = [...document.querySelectorAll("#results .post-item")];
+
+    function getSelectedTags() {
+      return tagEls.filter((x) => x.checked).map((x) => x.value);
+    }
+
+    function apply() {
+      const selected = getSelectedTags();
+
+      items.forEach((el) => {
+        const tags = (el.dataset.tags || "").split(",").filter(Boolean);
+        const matches =
+          selected.length === 0
+            ? true
+            : selected.every((t) => tags.includes(t)) // AND
+        el.style.display = matches ? "" : "none";
+      });
+
+      // Keep filter state in URL (?tags=a,b&mode=all)
+      const url = new URL(window.location.href);
+      if (selected.length)
+        url.searchParams.set("filter", selected.join(","));
+      else
+        url.searchParams.delete("filter");
+
+      history.replaceState(null, "", url);
+    }
+
+    // Restore state from URL on load
+    const url = new URL(window.location.href);
+    const tags = (url.searchParams.get("filter") || "").split(",").filter(Boolean);
+    tagEls.forEach((cb) => (cb.checked = tags.includes(cb.value)));
+    tagEls.forEach((cb) => cb.addEventListener("change", apply));
+    apply();
+  </script>
 </BaseLayout>
