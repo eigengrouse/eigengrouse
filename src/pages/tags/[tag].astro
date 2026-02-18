@@ -42,16 +42,13 @@ const title = tag
   <div class="posts">
     <h1 class="posts-title">{title}</h1>
 
-    <!-- Filter UI -->
-    <div class="posts-filters">
-      <div class="tags">
-        {allTags.map((t) => (
-          <label class="tag-option">
-            <input type="checkbox" value={t} class="tag" />
-            <span>{t}</span>
-          </label>
-        ))}
-      </div>
+    <div>
+      {allTags.map((t) => (
+        <label style="cursor:pointer;margin-top:3px">
+          <input type="checkbox" value={t} class="tag" />
+          <span>{t}&nbsp;</span>
+        </label>
+      ))}
     </div>
 
     {posts.length === 0 ? (
