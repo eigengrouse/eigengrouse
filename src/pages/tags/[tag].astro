@@ -4,52 +4,64 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 
 export async function getStaticPaths() {
-
   const allPosts = await getCollection('posts');
   const publishedPosts = allPosts.filter((post) => !post.data.draft);
-  const allTags = Array.from(
-    new Set(publishedPosts.flatMap((post) => post.data.tags ?? []))
-  ).sort();
 
-  return allTags.map((tag) => {
+  const uniqueTags = Array.from(
+    new Set(publishedPosts.flatMap((post) => post.data.tags ?? []))
+  );
+
+  return uniqueTags.map((tag) => {
     const filteredPosts = publishedPosts
       .filter((post) => post.data.tags?.includes(tag))
       .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    // ONLY tags that exist in the filtered posts for this page
-    const pageTags = Array.from(
-      new Set(filteredPosts.flatMap((post) => post.data.tags ?? []))
-    )
-    .filter((t) => t !== tag) // exclude current tag
-    .sort();
-
     return {
       params: { tag },
-      props: { posts: filteredPosts, allTags: pageTags },
+      props: { posts: filteredPosts },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { posts, allTags } = Astro.props;
+const { posts } = Astro.props;
 
 const title = tag
   .split('-')
   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
   .join(' ');
+
+// only keep tags that can actually change the results (not present on every post)
+const totalPosts = posts.length;
+const tagCounts = new Map();
+
+for (const post of posts) {
+  for (const t of post.data.tags ?? []) {
+    if (t === tag) continue; // exclude current tag
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+
+// “meaningful” tags appear in SOME posts but NOT ALL posts
+const effectiveTags = Array.from(tagCounts.entries())
+  .filter(([, count]) => count > 0 && count < totalPosts)
+  .map(([t]) => t)
+  .sort();
 ---
 
 <BaseLayout title={title}>
   <div class="posts">
     <h1 class="posts-title">{title}</h1>
 
+    {effectiveTags.length > 0 && (
     <div>
-      {allTags.map((t) => (
+      {effectiveTags.map((t) => (
         <label style="cursor:pointer;margin-top:10px">
           <input type="checkbox" value={t} class="tag" />
-          <span>{t}&nbsp;</span>
+          <span>#{t}&nbsp;</span>
         </label>
       ))}
     </div>
+    )}
 
     {posts.length === 0 ? (
       <p>No posts yet. Check back soon!</p>
