@@ -15,7 +15,7 @@ A while ago now I saw a thread on [Twitter](https://x.com/gif_not_jif/status/175
 
 I also saw a nice trick recently in the [Animated ALex](https://www.youtube.com/@animatedAL) discord describing a water effect created by "rotating UDGs". That is, `POKE`ing a system variable which contains the start location of User Defined Graphics so that the same UDGs could be `PRINT`ed to the screen but rotated by cycling this value, simulating moving waves in an ocean. Credit goes to [WhatHoSnorkers](https://www.youtube.com/@WhatHoSnorkers) for this.
 
-Basically, if you have a 16x16 tile represented by `"ABCD"` then shifting the system variable by 4*8 bytes i.e. 32 animates that tile to `"EFGH"` when it's redrawn. This could be cycled using a `FOR` loop or the line `LET offset = offset + 32 AND offset < 127` for the 5 frames. I have attempted this in Sinclair BASIC and then with some machine code, both versions using this UDG rotation trick.
+Basically, if you have a 16x16 tile represented by `"ABCD"` then shifting the system variable by 4*8 bytes i.e. 32 animates that tile to `"EFGH"` when it's redrawn. This could be cycled using a `FOR` loop or the line `LET offset = offset + 32 AND offset < 127` then `POKE 23675, offset + 88` for the 5 frames. I have attempted this in Sinclair BASIC and then with some machine code, both versions using this UDG rotation trick.
 
 ### A quick demo...
 
