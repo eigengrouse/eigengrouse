@@ -13,7 +13,9 @@ A Sinclair BASIC game for the ZX Spectrum inspired by [Iron Lung](https://en.wik
 
 ### A quick demo...
 
-Coming soon...
+<div class="video-wrapper">
+<iframe src="https://www.youtube-nocookie.com/embed/3vnHYuaacMU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ### A few notes on what I did...
 
