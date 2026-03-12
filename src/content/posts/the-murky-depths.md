@@ -21,7 +21,7 @@ A Sinclair BASIC game for the ZX Spectrum inspired by [Iron Lung](https://en.wik
 
 [`Talk is cheap, show me the code.`](https://github.com/eigengrouse/murkydepths)
 
-This is a Sinclair BASIC game that uses built-in trigonometry commands such as `SIN` and `COS` to move a `PLOT`ed dot around a the game screen the represents a submarine, detecting game screen collisions using `POINT`. I had the idea of loading a more complex game screen, created in [ZX Paintbrush](https://sourcesolutions.itch.io/zx-paintbrush) using `LOAD ""SCREEN$` which worked well but then any use of `CLS` to e.g. show some instructions would lose that screen completely.
+This is a Sinclair BASIC game that uses built-in trigonometry commands such as `SIN` and `COS` to move a `PLOT`ed dot around a the game screen that represents a submarine, detecting game screen collisions using `POINT`. I had the idea of loading a more complex game screen, created in [ZX Paintbrush](https://sourcesolutions.itch.io/zx-paintbrush) using `LOAD ""SCREEN$` which worked well but then any use of `CLS` to e.g. show some instructions would lose that screen completely.
 
 This led me to the idea of creating a buffer using machine code that I could quickly load in and out using `LDIR` and `CLEAR`ing enough room for the screen data (6144 bytes for just the bitmap data). This was fairly straightforward, but I had previously seen a compression tool called [zx0](https://github.com/einar-saukas/ZX0) and I wondered if I could use this to include more screens to tell a kind of story.
 
